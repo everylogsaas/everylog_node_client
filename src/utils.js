@@ -23,19 +23,30 @@ export const checkNotifications = (notification) => {
     }
   }
 
-  if (notification.link != null && notification.link != undefined) {
+  if (notification.link) {
     if (!isValidHttpUrl(notification.link)) {
       throw new Error("link is not a valid url")
     }
   }
 
-  if (notification.tags != null && notification.tags != undefined) {
+  if (notification.tags) {
     if (!Array.isArray(notification.tags)) {
       throw new Error("tags is not an array")
     } else {
       const checkArrayType = notification.tags.find((element) => typeof element != "string")
       if (checkArrayType != undefined) {
         throw new Error("invalid array element")
+      }
+    }
+  }
+
+  if (notification.groups) {
+    if (!Array.isArray(notification.groups)) {
+      throw new Error("groups is not an array")
+    } else {
+      const checkArrayType = notification.groups.find((element) => typeof element != "string")
+      if (checkArrayType != undefined) {
+        throw new Error("invalid array groups")
       }
     }
   }
@@ -63,4 +74,19 @@ const isValidHttpUrl = (string) => {
     return false;
   }
   return url.protocol === "http:" || url.protocol === "https:";
+}
+
+export const checkOptions = (options) => {
+  if (options.protocol && typeof options.protocol != "string") {
+    throw new Error("invalid protocol type")
+  }
+  if (options.hostname && typeof options.hostname != "string") {
+    throw new Error("invalid hostname type")
+  }
+  if (options.path && typeof options.path != "string") {
+    throw new Error("invalid path type")
+  }
+  if (options.method && typeof options.method != "string") {
+    throw new Error("invalid method type")
+  }
 }
