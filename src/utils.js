@@ -50,6 +50,29 @@ export const checkNotifications = (notification) => {
       }
     }
   }
+
+  if (notification.externalChannels) {
+    if (!Array.isArray(notification.externalChannels)) {
+      throw new Error("externalChannels is not an array")
+    } else {
+      const checkArrayType = notification.externalChannels.find((element) => typeof element != "string")
+      if (checkArrayType != undefined) {
+        throw new Error("invalid array externalChannels")
+      }
+    }
+  }
+
+  if (notification.icon) {
+    if (typeof notification.icon != "string") {
+      throw new Error("invalid icon")
+    }
+  }
+
+  if (notification.properties) {
+    if (typeof notification.properties != "object") {
+      throw new Error("invalid properties type")
+    }
+  }
 }
 
 export const checkSettings = (settings) => {
@@ -77,9 +100,6 @@ const isValidHttpUrl = (string) => {
 }
 
 export const checkOptions = (options) => {
-  if (options.protocol && typeof options.protocol != "string") {
-    throw new Error("invalid protocol type")
-  }
   if (options.hostname && typeof options.hostname != "string") {
     throw new Error("invalid hostname type")
   }
