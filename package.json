@@ -1,7 +1,7 @@
 {
-  "name": "everylog_node_client",
+  "name": "@devinterfacesrl/everylog_node_client",
   "version": "1.0.0",
-  "description": "",
+  "description": "EveryLog nodejs client",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,10 +11,18 @@
     "type": "git",
     "url": "git+https://github.com/everylogsaas/everylog_node_client.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "DevInterface SRL",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/everylogsaas/everylog_node_client/issues"
   },
-  "homepage": "https://github.com/everylogsaas/everylog_node_client#readme"
+  "homepage": "https://github.com/everylogsaas/everylog_node_client#readme",
+  "keywords": [
+    "EveryLog",
+    "DevInterface",
+    "nodejs",
+    "node",
+    "push",
+    "notifications"
+  ]
 }
