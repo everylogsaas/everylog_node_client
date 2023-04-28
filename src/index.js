@@ -49,13 +49,27 @@ export class EveryLogClient {
   * @property {array[string]} [notification.tags] - useful to better filter entries
   * @property {string} [notification.links] - string as url, an external url to point
   * @property {boolean} [notification.push] - boolean, true to receive a push notification
+  * @property {array[string]} [notification.groups] - useful to better send notifications
+  * @property {array[string]} [notification.externalChannels] - send notification to externalChannel
+  * @property {string} [notification.icon] - emoji icon fot notification
+  * @property {object} [notification.properties] - useful to filter notifications by properties
+  *
   *
   */
   async notify({
-    title, summary, body, link = null, push = false, tags = [], groups = []
+    title,
+    summary,
+    body,
+    link = null,
+    push = false,
+    tags = [],
+    groups = [],
+    externalChannels = [],
+    icon = null,
+    properties = null
   }) {
     validateNotificationOptions({
-      title, summary, body, link, push, tags, groups
+      title, summary, body, link, push, tags, groups, externalChannels, icon, properties
     });
 
     const data = JSON.stringify({

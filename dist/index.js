@@ -64,6 +64,11 @@ class EveryLogClient {
   * @property {array[string]} [notification.tags] - useful to better filter entries
   * @property {string} [notification.links] - string as url, an external url to point
   * @property {boolean} [notification.push] - boolean, true to receive a push notification
+  * @property {array[string]} [notification.groups] - useful to better send notifications
+  * @property {array[string]} [notification.externalChannels] - send notification to externalChannel
+  * @property {string} [notification.icon] - emoji icon fot notification
+  * @property {object} [notification.properties] - useful to filter notifications by properties
+  *
   *
   */
   async notify({
@@ -73,7 +78,10 @@ class EveryLogClient {
     link = null,
     push = false,
     tags = [],
-    groups = []
+    groups = [],
+    externalChannels = [],
+    icon = null,
+    properties = null
   }) {
     (0, _utils.validateNotificationOptions)({
       title,
@@ -82,7 +90,10 @@ class EveryLogClient {
       link,
       push,
       tags,
-      groups
+      groups,
+      externalChannels,
+      icon,
+      properties
     });
     const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
       projectId: this.projectId,
