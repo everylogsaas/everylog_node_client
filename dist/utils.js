@@ -59,6 +59,26 @@ const validateNotificationOptions = notificationOptions => {
       }
     }
   }
+  if (notificationOptions.externalChannels) {
+    if (!Array.isArray(notificationOptions.externalChannels)) {
+      throw new Error('externalChannels is not an array');
+    } else {
+      const checkArrayType = notificationOptions.externalChannels.find(element => typeof element !== 'string');
+      if (checkArrayType !== undefined) {
+        throw new Error('invalid array externalChannels');
+      }
+    }
+  }
+  if (notificationOptions.icon) {
+    if (typeof notificationOptions.icon !== 'string') {
+      throw new Error('invalid icon');
+    }
+  }
+  if (notificationOptions.properties) {
+    if (typeof notificationOptions.properties !== 'object') {
+      throw new Error('invalid properties type');
+    }
+  }
 };
 exports.validateNotificationOptions = validateNotificationOptions;
 const checkApiKeyAndProjectId = settings => {
