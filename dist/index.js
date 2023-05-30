@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.EveryLogClient = void 0;
 var _https = _interopRequireDefault(require("https"));
+var _http = _interopRequireDefault(require("http"));
 var _utils = require("./utils");
 var _notificationError = require("./errors/notificationError");
 var _genericError = require("./errors/genericError");
@@ -28,6 +29,7 @@ class EveryLogClient {
    * @property {string} hostname   - default: "api.everylog.io"
    * @property {string} path       - default: "/api/v1/log-entries"
    * @property {string} method     - default: "POST"
+   * @property {boolean} localTesting - default: false
    *
    */
   constructor(apiKey, projectId, {
@@ -35,7 +37,8 @@ class EveryLogClient {
     port = 443,
     hostname = 'api.everylog.io',
     path = '/api/v1/log-entries',
-    method = 'POST'
+    method = 'POST',
+    localTesting = false
   } = {}) {
     (0, _utils.checkApiKeyAndProjectId)({
       apiKey,
@@ -43,6 +46,7 @@ class EveryLogClient {
     });
     this.apiKey = apiKey;
     this.projectId = projectId;
+    this.localTesting = localTesting;
     this.protocol = protocol;
     this.port = port;
     this.hostname = hostname;
@@ -95,7 +99,7 @@ class EveryLogClient {
       icon,
       properties
     });
-    const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
+    const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
       projectId: this.projectId,
       title,
       summary,
@@ -108,6 +112,14 @@ class EveryLogClient {
       tags
     }), groups !== null && {
       groups
+    }), groups != null && {
+      groups
+    }), externalChannels != null && {
+      externalChannels
+    }), icon != null && {
+      icon
+    }), properties != null && {
+      properties
     }));
     const option = {
       protocol: this.protocol,
@@ -120,7 +132,8 @@ class EveryLogClient {
       })
     };
     return new Promise((resolve, reject) => {
-      const req = _https.default.request(option, res => {
+      console.log('localTesting', this.localTesting);
+      const req = (this.localTesting ? _http.default : _https.default).request(option, res => {
         let resData = '';
         const {
           statusCode

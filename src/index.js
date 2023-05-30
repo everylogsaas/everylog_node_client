@@ -1,4 +1,5 @@
 import https from 'https';
+import http from 'http';
 import {
   validateNotificationOptions,
   checkApiKeyAndProjectId,
@@ -20,14 +21,16 @@ export class EveryLogClient {
    * @property {string} hostname   - default: "api.everylog.io"
    * @property {string} path       - default: "/api/v1/log-entries"
    * @property {string} method     - default: "POST"
+   * @property {boolean} localTesting - default: false
    *
    */
   constructor(apiKey, projectId, {
-    protocol = 'https:', port = 443, hostname = 'api.everylog.io', path = '/api/v1/log-entries', method = 'POST'
+    protocol = 'https:', port = 443, hostname = 'api.everylog.io', path = '/api/v1/log-entries', method = 'POST', localTesting = false
   } = {}) {
     checkApiKeyAndProjectId({ apiKey, projectId });
     this.apiKey = apiKey;
     this.projectId = projectId;
+    this.localTesting = localTesting;
     this.protocol = protocol;
     this.port = port;
     this.hostname = hostname;
@@ -80,7 +83,11 @@ export class EveryLogClient {
       ...(link !== null && { link }),
       ...(push !== null && { push }),
       ...(tags !== null && { tags }),
-      ...(groups !== null && { groups })
+      ...(groups !== null && { groups }),
+      ...(groups != null && { groups }),
+      ...(externalChannels != null && { externalChannels }),
+      ...(icon != null && { icon }),
+      ...(properties != null && { properties }),
     });
 
     const option = {
@@ -96,7 +103,8 @@ export class EveryLogClient {
     };
 
     return new Promise((resolve, reject) => {
-      const req = https.request(option, (res) => {
+      console.log('localTesting', this.localTesting);
+      const req = (this.localTesting ? http : https).request(option, (res) => {
         let resData = '';
         const { statusCode } = res;
 
