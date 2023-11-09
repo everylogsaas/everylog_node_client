@@ -59,7 +59,7 @@ export class EverylogNodeClient {
   *
   *
   */
-  async notify({
+  async create_log_entry({
     title,
     summary,
     body,
