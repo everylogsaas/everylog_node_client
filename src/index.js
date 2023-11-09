@@ -4,10 +4,10 @@ import {
   validateNotificationOptions,
   checkApiKeyAndProjectId,
 } from './utils';
-import { EveryLogNotificationError } from './errors/notificationError';
-import { EveryLogGenericError } from './errors/genericError';
+import { EverylogNotificationError } from './errors/notificationError';
+import { EverylogGenericError } from './errors/genericError';
 
-export class EveryLogClient {
+export class EverylogNodeClient {
   /**
    *
    * @namespace settings
@@ -117,12 +117,12 @@ export class EveryLogClient {
           if (res.statusCode >= 200 && res.statusCode <= 299) {
             resolve({ response: parsedData, statusCode });
           } else {
-            reject(new EveryLogNotificationError(parsedData.message, statusCode));
+            reject(new EverylogNotificationError(parsedData.message, statusCode));
           }
         });
       })
         .on('error', (err) => {
-          reject(new EveryLogGenericError(err.message));
+          reject(new EverylogGenericError(err.message));
         });
       req.write(data);
       req.end();
@@ -130,4 +130,4 @@ export class EveryLogClient {
   }
 }
 
-export default EveryLogClient;
+export default EverylogNodeClient;

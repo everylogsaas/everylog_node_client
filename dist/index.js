@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.EveryLogClient = void 0;
+exports.default = exports.EverylogNodeClient = void 0;
 var _https = _interopRequireDefault(require("https"));
 var _http = _interopRequireDefault(require("http"));
 var _utils = require("./utils");
@@ -15,7 +15,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-class EveryLogClient {
+class EverylogNodeClient {
   /**
    *
    * @namespace settings
@@ -75,7 +75,7 @@ class EveryLogClient {
   *
   *
   */
-  async notify({
+  async create_log_entry({
     title,
     summary,
     body,
@@ -149,17 +149,17 @@ class EveryLogClient {
               statusCode
             });
           } else {
-            reject(new _notificationError.EveryLogNotificationError(parsedData.message, statusCode));
+            reject(new _notificationError.EverylogNotificationError(parsedData.message, statusCode));
           }
         });
       }).on('error', err => {
-        reject(new _genericError.EveryLogGenericError(err.message));
+        reject(new _genericError.EverylogGenericError(err.message));
       });
       req.write(data);
       req.end();
     });
   }
 }
-exports.EveryLogClient = EveryLogClient;
-var _default = EveryLogClient;
+exports.EverylogNodeClient = EverylogNodeClient;
+var _default = EverylogNodeClient;
 exports.default = _default;

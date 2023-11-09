@@ -1,7 +1,7 @@
-export class EveryLogGenericError extends Error {
+export class EverylogGenericError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 500;
   }
 }
-export default EveryLogGenericError;
+export default EverylogGenericError;
