@@ -22,3 +22,4 @@ package-lock.json
 
 others
 .DS_Store
+test.js

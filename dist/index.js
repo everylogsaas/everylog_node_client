@@ -60,22 +60,22 @@ class EverylogNodeClient {
 
   /**
   *
-  * @namespace  notification
-  * @property {object} notification
-  * @property {string} notification.title - the title of the entry, length 50
-  * @property {string} notification.summary - a quick summary, length 100
-  * @property {object} notification.body -  the full body to log
-  * @property {array[string]} [notification.tags] - useful to better filter entries
-  * @property {string} [notification.links] - string as url, an external url to point
-  * @property {boolean} [notification.push] - boolean, true to receive a push notification
-  * @property {array[string]} [notification.groups] - useful to better send notifications
-  * @property {array[string]} [notification.externalChannels] - send notification to externalChannel
-  * @property {string} [notification.icon] - emoji icon fot notification
-  * @property {object} [notification.properties] - useful to filter notifications by properties
+  * @namespace  logEntry
+  * @property {object} logEntry
+  * @property {string} logEntry.title - the title of the entry, length 50
+  * @property {string} logEntry.summary - a quick summary, length 100
+  * @property {object} logEntry.body -  the full body to log
+  * @property {array[string]} [logEntry.tags] - useful to better filter entries
+  * @property {string} [logEntry.links] - string as url, an external url to point
+  * @property {boolean} [logEntry.push] - boolean, true to receive a push logEntry
+  * @property {array[string]} [logEntry.groups] - useful to better send logEntries
+  * @property {array[string]} [logEntry.externalChannels] - send logEntry to externalChannel
+  * @property {string} [logEntry.icon] - emoji icon fot logEntry
+  * @property {array[object]} [logEntry.properties] - useful to filter logEntries by properties
   *
   *
   */
-  async create_log_entry({
+  async createLogEntry({
     title,
     summary,
     body,
@@ -99,7 +99,7 @@ class EverylogNodeClient {
       icon,
       properties
     });
-    const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
+    const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
       projectId: this.projectId,
       title,
       summary,
@@ -111,8 +111,6 @@ class EverylogNodeClient {
     }), tags !== null && {
       tags
     }), groups !== null && {
-      groups
-    }), groups != null && {
       groups
     }), externalChannels != null && {
       externalChannels
@@ -142,13 +140,13 @@ class EverylogNodeClient {
           resData += chunk;
         });
         res.on('end', () => {
-          const parsedData = JSON.parse(resData);
           if (res.statusCode >= 200 && res.statusCode <= 299) {
             resolve({
-              response: parsedData,
+              response: 'Successfully createdLog entry',
               statusCode
             });
           } else {
+            const parsedData = JSON.parse(resData);
             reject(new _notificationError.EverylogNotificationError(parsedData.message, statusCode));
           }
         });
