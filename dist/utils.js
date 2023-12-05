@@ -75,8 +75,13 @@ const validateNotificationOptions = notificationOptions => {
     }
   }
   if (notificationOptions.properties) {
-    if (typeof notificationOptions.properties !== 'object') {
-      throw new Error('invalid properties type');
+    if (!Array.isArray(notificationOptions.properties)) {
+      throw new Error('properties is not an array');
+    } else {
+      const checkArrayType = notificationOptions.properties.find(element => typeof element !== 'object');
+      if (checkArrayType !== undefined) {
+        throw new Error('invalid array properties');
+      }
     }
   }
 };

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.EveryLogClient = void 0;
+exports.default = exports.EverylogNodeClient = void 0;
 var _https = _interopRequireDefault(require("https"));
 var _http = _interopRequireDefault(require("http"));
 var _utils = require("./utils");
@@ -15,7 +15,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return typeof key === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (typeof input !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (typeof res !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-class EveryLogClient {
+class EverylogNodeClient {
   /**
    *
    * @namespace settings
@@ -60,22 +60,22 @@ class EveryLogClient {
 
   /**
   *
-  * @namespace  notification
-  * @property {object} notification
-  * @property {string} notification.title - the title of the entry, length 50
-  * @property {string} notification.summary - a quick summary, length 100
-  * @property {object} notification.body -  the full body to log
-  * @property {array[string]} [notification.tags] - useful to better filter entries
-  * @property {string} [notification.links] - string as url, an external url to point
-  * @property {boolean} [notification.push] - boolean, true to receive a push notification
-  * @property {array[string]} [notification.groups] - useful to better send notifications
-  * @property {array[string]} [notification.externalChannels] - send notification to externalChannel
-  * @property {string} [notification.icon] - emoji icon fot notification
-  * @property {object} [notification.properties] - useful to filter notifications by properties
+  * @namespace  logEntry
+  * @property {object} logEntry
+  * @property {string} logEntry.title - the title of the entry, length 50
+  * @property {string} logEntry.summary - a quick summary, length 100
+  * @property {object} logEntry.body -  the full body to log
+  * @property {array[string]} [logEntry.tags] - useful to better filter entries
+  * @property {string} [logEntry.links] - string as url, an external url to point
+  * @property {boolean} [logEntry.push] - boolean, true to receive a push logEntry
+  * @property {array[string]} [logEntry.groups] - useful to better send logEntries
+  * @property {array[string]} [logEntry.externalChannels] - send logEntry to externalChannel
+  * @property {string} [logEntry.icon] - emoji icon fot logEntry
+  * @property {array[object]} [logEntry.properties] - useful to filter logEntries by properties
   *
   *
   */
-  async notify({
+  async createLogEntry({
     title,
     summary,
     body,
@@ -99,7 +99,7 @@ class EveryLogClient {
       icon,
       properties
     });
-    const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
+    const data = JSON.stringify(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({
       projectId: this.projectId,
       title,
       summary,
@@ -111,8 +111,6 @@ class EveryLogClient {
     }), tags !== null && {
       tags
     }), groups !== null && {
-      groups
-    }), groups != null && {
       groups
     }), externalChannels != null && {
       externalChannels
@@ -142,24 +140,24 @@ class EveryLogClient {
           resData += chunk;
         });
         res.on('end', () => {
-          const parsedData = JSON.parse(resData);
           if (res.statusCode >= 200 && res.statusCode <= 299) {
             resolve({
-              response: parsedData,
+              response: 'Successfully createdLog entry',
               statusCode
             });
           } else {
-            reject(new _notificationError.EveryLogNotificationError(parsedData.message, statusCode));
+            const parsedData = JSON.parse(resData);
+            reject(new _notificationError.EverylogNotificationError(parsedData.message, statusCode));
           }
         });
       }).on('error', err => {
-        reject(new _genericError.EveryLogGenericError(err.message));
+        reject(new _genericError.EverylogGenericError(err.message));
       });
       req.write(data);
       req.end();
     });
   }
 }
-exports.EveryLogClient = EveryLogClient;
-var _default = EveryLogClient;
+exports.EverylogNodeClient = EverylogNodeClient;
+var _default = EverylogNodeClient;
 exports.default = _default;
